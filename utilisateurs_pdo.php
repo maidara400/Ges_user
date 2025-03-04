@@ -1,5 +1,5 @@
 <?php
-    require_once('pdo_connect.php') ;
+    require_once('db.php');
     require_once('includes/head.php') ;
     $afficher = 'SELECT * FROM etudiant';
     $stmt  = $pdo->prepare($afficher);
@@ -62,12 +62,12 @@ $etudiants = $stmt->fetchAll(PDO::FETCH_OBJ);  // ou PDO::FETCH_ASSOC si tu veux
                                             <td><?= htmlspecialchars($etudiant->nom) ; ?></td>
                                             <td><?= htmlspecialchars($etudiant->prenom ); ?></td>
                                             <td><?= htmlspecialchars($etudiant->email) ; ?></td>
-                                            <td><?= htmlspecialchars($etudiant->date_inscription) ; ?></td>
+                                            <td><?= htmlspecialchars($etudiant->date_creation) ; ?></td>
                                             <td>
-                                                <form action="" method="POST" >
+                                                <form action="pdo_supp.php" method="POST" >
                                                     <a href="pdo_modif.php?id=<?= htmlspecialchars(urldecode($etudiant->id_etudiant)); ?>" class="btn btn-primary btn-sm">Modifier</a>
-                                                    <input type="hidden" name="id_etudiant" value="<?= htmlspecialchars($etudiant->id_etudiant); ?>" >
-                                                    <input type="submit" value="Supprimer" name="supprimer" class="btn btn-primary btn-sm">
+                                                    <input type="hidden" name="id_etudiant" value="<?= htmlspecialchars($etudiant->id_etudiant); ?>" />
+                                                    <button type="submit" name="supprimer" class="btn btn-danger btn-sm">Supprimer</button>
                                                 </form>
                                             </td>
                                         </tr>

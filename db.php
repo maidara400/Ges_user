@@ -1,24 +1,19 @@
 <?php
-
-try{
-    $user = "root";
-    $password = "";
-    $database = "tp_php";
-    $host = "localhost";
-    $options = [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
-    ];
-
-    $pdo = new PDO("mysql:host=$host;dbname=$database",$user,$password,$options);
-
-    // echo "Table 'etudiants' créée avec succès !";
-
-}
-catch(PDOException $e){
-    echo "Erreur : " . $e->getMessage();
+function getConnection() {
+    try {
+        $pdo = new
+        PDO("mysql:host=localhost;dbname=gestion_utilisateur;charset=utf8", "root", "", [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]);
+        return $pdo;
+    } catch (PDOException $e) {
+        die("Erreur de connexion : " . $e->getMessage());
+    }
 }
 
 
+//var_dump(getConnection());
+?>
 
 
