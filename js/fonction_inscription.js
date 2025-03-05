@@ -42,7 +42,7 @@ function inscription(){
             nom_error.textContent = 'Nom Acceptable !'
             setTimeout(function() {
                 nom_error.style.display = 'none'  // Masquer l'élément
-            }, 3000)
+            }, valide = false)
             valide = true
         
     }
@@ -63,7 +63,7 @@ function inscription(){
        mail_error.textContent = 'Email Acceptable !'
        setTimeout(function() {
            mail_error.style.display = 'none'  // Masquer l'élément
-       }, 3000);
+       }, valide = false);
        valide = true
    
 }
@@ -84,7 +84,7 @@ password_f.addEventListener('input',()=>{
                 password_error.textContent = 'Mot de passe  Acceptable !'
                 setTimeout(function() {
                     password_error.style.display = 'none'  // Masquer l'élément
-                }, 3000);
+                }, valide = false);
                 valide = true
                 
             }

@@ -5,16 +5,22 @@ if (isset($_POST['connexion'])) {
     $pdo = getConnection();
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
+    // $password = hash($password);
+    $se_souvenir = isset($_POST['se_souvenir']) ? $_POST['se_souvenir'] : '';
+
     $sql = "SELECT * FROM utilisateurs WHERE username = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$username]);
     $user = $stmt->fetch();
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['username'] = $user['username'];
-        setcookie("utilisateur", $user['username'], time() + 3600, "/");
+        if($se_souvenir == 1 ){
+            setcookie("utilisateur", $user['username'], time() + 3600, "/");
+            setcookie("password_utilisateur",$password, time() + 3600, "/") ;
+        }
         header("Location: dashboard.php");
     exit;
- } else {
+    } else {
         echo "Identifiants incorrects.";
     }
 }
@@ -36,7 +42,7 @@ if (isset($_POST['connexion'])) {
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image bg-danger"></div>
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image bg-warning">  </div>
                             <div class="col-lg-6">
                                 <?php  ; ?>
                                 <div class="p-5">
@@ -47,18 +53,18 @@ if (isset($_POST['connexion'])) {
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
                                                 id="nom" aria-describedby="emailHelp"
-                                                placeholder="Entrer votre nom..." name="username">
+                                                placeholder="Entrer votre nom..." name="username" value="<?= isset($_COOKIE['utilisateur']) ? htmlspecialchars($_COOKIE['utilisateur']):'' ; ?>">
                                         </div>
 
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password" name="password">
+                                                id="exampleInputPassword" placeholder="Password" name="password" value="<?= isset($_COOKIE['password_utilisateur']) ? htmlspecialchars($_COOKIE['password_utilisateur']):''; ?>">
+                                                
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small ">
-                                                <input type="checkbox" class="custom-control-input " id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Se Souvenir
-                                                    </label>
+                                                <input type="checkbox" class="custom-control-input " id="customCheck" name="se_souvenir" value="1">
+                                                <label class="custom-control-label" for="customCheck">Se Souvenir</label>                                                 
                                             </div>
                                         </div>
                                         <input type="submit" class="btn btn-primary btn-user btn-block" name="connexion" value="Connexion">
@@ -73,10 +79,10 @@ if (isset($_POST['connexion'])) {
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small text-decoration-none" href="forgot-password.html">Mot passe oublier ?</a>
+                                        <a class="small text-decoration-none disabled" href="forgot-password.html">Mot passe oublier ?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small text-decoration-none" href="register.html">S'inscrire !</a>
+                                        <a class="small text-decoration-none" href="inscription.php">S'inscrire !</a>
                                     </div>
                                 </div>
                             </div>
@@ -98,4 +104,4 @@ if (isset($_POST['connexion'])) {
 </html>
 
 
-?>
+
