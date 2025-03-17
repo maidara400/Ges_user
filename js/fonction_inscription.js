@@ -29,49 +29,50 @@ function inscription(){
     password_error.textContent = ''
 
     // evenement lier au champ  nom du formulaire
-    nom_f.addEventListener('input',()=>{
-            nom = document.getElementById('nom').value
-            // verification du champ nom
-        if(typeof nom !== 'string' || nom.length < 3){
-            nom_error.style.color = 'red'
-            nom_error.textContent = 'Le  nom est trop court ou Incorrect !'
-            valide = false
-        }
-        else if(nom.length > 3 && nom.length < 5){
-            nom_error.style.color = 'green'
-            nom_error.textContent = 'Nom Acceptable !'
+    
+    nom_f.addEventListener('blur',()=>{
+         nom = document.getElementById('nom').value
+             // verification du champ nom
+         if(typeof nom !== 'string' || nom.length < 4){
+             nom_error.style.color = 'red'
+             nom_error.textContent = 'Le  champs nom vide ou incorrect !'
+             valide = false
+         }else if (typeof nom == 'string' || nom.length > 4){
+            nom_error.style.color = 'green';
+            nom_error.textContent = 'Nom acceptable!';
             setTimeout(function() {
-                nom_error.style.display = 'none'  // Masquer l'élément
-            }, valide = false)
-            valide = true
-        
-    }
-    })
+                nom_error.style.display = 'none';  // Afficher l'élément si nécessaire
+            }, 2000);
+            valide = true;
+        }
+     })
+
 
 
    // evenement lier au champ  mail du formulaire
-   mail_f.addEventListener('input',()=>{
+   mail_f.addEventListener('blur',()=>{
     // verification du champ mail
     mail = document.getElementById('mail').value
-   if(typeof mail !== 'string' || mail.length < 3){
+    let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+   if(!regex.test(mail)){
        mail_error.style.color = 'red'
-       mail_error.textContent = 'L\'email Incorrect !'
+       mail_error.textContent = 'L\'email est Incorrect !'
        valide = false
    }
-   else if(mail.length > 3 && mail.length < 5){
+   else if(regex.test(mail)){
        mail_error.style.color = 'green'
-       mail_error.textContent = 'Email Acceptable !'
+       mail_error.textContent = 'Email valide!'
        setTimeout(function() {
            mail_error.style.display = 'none'  // Masquer l'élément
-       }, valide = false);
+       }, 2000);
        valide = true
    
 }
 })
-// blur
+
 
 // evenement lier au champ password du formulaire
-password_f.addEventListener('input',()=>{
+password_f.addEventListener('blur',()=>{
             // Verification du champ password
             password = document.getElementById('password').value
             if(password.length <= 3){
@@ -84,7 +85,7 @@ password_f.addEventListener('input',()=>{
                 password_error.textContent = 'Mot de passe  Acceptable !'
                 setTimeout(function() {
                     password_error.style.display = 'none'  // Masquer l'élément
-                }, valide = false);
+                },2000);
                 valide = true
                 
             }
